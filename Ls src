@@ -1,0 +1,2126 @@
+-- Thanks to the nice folks here at Lasion, you now have
+-- the whole beanz hub source code. <3
+-- https://lasion.world
+
+--  _,-""`""-~`)
+-- (`~_,=========\
+--  |---,___.-.__,\
+--  |        o     \ ___  _,,,,_     _.--.
+--  \      `^`    /`_.-"~      `~-;`     \
+--   \_      _  .'                 `,     |
+--     |`-      Luv from lasion devs \'__/ 
+--    /                      ,_       \  `'-. 
+--   /    .-""~~--.            `"-,   ;_    /
+--  |              \               \  | `""`
+--   \__.--'`"-.   /_               |'
+--              `"`  `~~~---..,     |
+--                            \ _.-'`-.
+--                              \       \
+-- Fuck you beanz                 '.     /
+-- Life sentence source code        `"~"`
+
+local runService = game:GetService("RunService");
+local httpService = game:GetService("HttpService");
+local tweenService = game:GetService("TweenService");
+local players = game:GetService("Players");
+local userInputService = game:GetService("UserInputService");
+
+local localPlayer = players.LocalPlayer;
+
+local uiLibraryURL = "https://raw.githubusercontent.com/pid4k/scripts/main/BeanzUI.lua";
+local uiLibrary = (runService:IsStudio() and require(script.Parent.BeanzUI)) or loadstring(game:HttpGet(uiLibraryURL))();
+
+local folderName = "BeanzHub/";
+local configFileName = "BeanzLS.txt";
+
+local isStudioMode = false;
+
+if runService:IsStudio() then 
+    task.wait(1);
+end
+
+local fullPath = tostring(folderName .. configFileName);
+
+function resetdefault(filePath, value, count)
+    local csvChunk = tostring(value .. ",")
+    csvChunk = csvChunk:rep(count)
+    csvChunk = csvChunk:sub(1, #csvChunk - 1)
+
+    writefile(filePath, csvChunk)
+end
+
+function installfile() 
+    if isfile then
+        if not isfolder("BeanzHub") then
+            makefolder("BeanzHub");
+        end
+
+        if not isfile(fullPath) then 
+            writefile(fullPath, "");
+            resetdefault(fullPath, "nil", 10);
+        end
+    end
+
+    task.wait();
+end
+
+installfile();
+
+function checkvariable(configFile, targetConfig) 
+    if isfile then 
+        if not isfile(configFile) then
+            resetdefault(configFile, "nil", 20);
+        end
+        
+        if (readfile(configFile) == nil) then
+            resetdefault(configFile, "nil", 20);
+        end
+
+        local contents = readfile(configFile);
+        local variables = contents:split(",");
+
+        for index, variable in variables do 
+            if (variable == targetConfig) then
+                return variable;
+            end
+        end
+
+        resetdefault(configFile, "nil", 20);
+    end
+end
+
+function writevariable(filePath, variableIndex, variableValue)
+    if isfile then 
+        if (readfile(filePath) == nil) then
+            resetdefault(filePath, "nil", 20);
+        end
+        local fileContent = readfile(filePath);
+        local variablesArray = fileContent:split(",");
+        local newContent = "";
+
+        for currentIndex, currentVariable in variablesArray do
+            if (currentIndex == variableIndex) then
+                newContent = tostring(newContent .. variableValue .. ",");
+            elseif (currentVariable ~= "") then
+                newContent = tostring(newContent .. currentVariable .. ",");
+            end
+        end
+
+        newContent = newContent:sub(0, newContent:len() - 1);
+        writefile(filePath, newContent);
+    end
+end
+
+-- Beanzzz's ripped this shit from inf yield
+local httpRequest = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request;
+local setClip = setclipboard or toclipboard or set_clipboard or (Clipboard and Clipboard.set);
+
+local scriptName = "Life Sentence Script V2";
+local main = uiLibrary:new({
+    ["Name"] = scriptName,
+    ["Movable"] = true,
+    ["Size"] = UDim2.new(0.2, 200, 0.2, 200),
+});
+
+local function firePP(proximityPrompt)
+    if fireproximityprompt then
+        fireproximityprompt(proximityPrompt, 1);
+    end
+end
+
+local silverColor = Color3.fromRGB(195, 194, 199);
+local goldColor = Color3.fromRGB(148, 110, 39);
+
+local function pressKey(testKey, realKey, duration)
+    local success, err = pcall(function()
+        keypress(testKey);
+        task.wait(duration);
+        keyrelease(testKey);
+    end);
+
+    if success then 
+        keypress(realKey);
+        task.wait(duration);
+        keyrelease(realKey);
+    end
+end
+
+--[[
+    This is where this fuck wit creates his whitelist frames.
+    But thanks to us, no need to use any keys. 
+
+    do 
+        local whitelistFrames = {};
+        whitelistFrames["121"] = Instance.new("Frame", mainWindow["2"]);
+        whitelistFrames["121"]["Visible"] = false;
+        whitelistFrames["121"]["ZIndex"] = 5;
+        whitelistFrames["121"]["BorderSizePixel"] = 0;
+        whitelistFrames["121"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+        whitelistFrames["121"]["Size"] = UDim2.new(0.44969, 0, 0.3516, 0);
+        whitelistFrames["121"]["Position"] = UDim2.new(0.27387, 0, 0.28093, 0);
+        whitelistFrames["121"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+        whitelistFrames["121"]["Name"] = "Whitelistkey";
+        whitelistFrames["121"]["BackgroundTransparency"] = 0.25;
+        whitelistFrames["122"] = Instance.new("TextLabel", whitelistFrames["121"]);
+        whitelistFrames["122"]["TextWrapped"] = true;
+        whitelistFrames["122"]["ZIndex"] = 6;
+        whitelistFrames["122"]["BorderSizePixel"] = 0;
+        whitelistFrames["122"]["TextScaled"] = true;
+        whitelistFrames["122"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+        whitelistFrames["122"]["TextSize"] = 14;
+        whitelistFrames["122"]["FontFace"] = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+        whitelistFrames["122"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
+        whitelistFrames["122"]["BackgroundTransparency"] = 1;
+        whitelistFrames["122"]["Size"] = UDim2.new(1, 0, 0.28028, 0);
+        whitelistFrames["122"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+        whitelistFrames["122"]["Text"] = "Insert Gold Key";
+        whitelistFrames["123"] = Instance.new("TextBox", whitelistFrames["121"]);
+        whitelistFrames["123"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
+        whitelistFrames["123"]["ZIndex"] = 6;
+        whitelistFrames["123"]["BorderSizePixel"] = 0;
+        whitelistFrames["123"]["TextWrapped"] = true;
+        whitelistFrames["123"]["TextSize"] = 14;
+        whitelistFrames["123"]["TextScaled"] = true;
+        whitelistFrames["123"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+        whitelistFrames["123"]["FontFace"] = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+        whitelistFrames["123"]["ClearTextOnFocus"] = false;
+        whitelistFrames["123"]["Size"] = UDim2.new(0.49708, 0, 0.38033, 0);
+        whitelistFrames["123"]["Position"] = UDim2.new(0.09973, 0, 0.44525, 0);
+        whitelistFrames["123"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+        whitelistFrames["123"]["Text"] = "";
+        whitelistFrames["124"] = Instance.new("TextButton", whitelistFrames["121"]);
+        whitelistFrames["124"]["TextWrapped"] = true;
+        whitelistFrames["124"]["BorderSizePixel"] = 0;
+        whitelistFrames["124"]["TextSize"] = 14;
+        whitelistFrames["124"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
+        whitelistFrames["124"]["TextScaled"] = true;
+        whitelistFrames["124"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+        whitelistFrames["124"]["FontFace"] = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+        whitelistFrames["124"]["ZIndex"] = 6;
+        whitelistFrames["124"]["Size"] = UDim2.new(0.33157, 0, 0.21319, 0);
+        whitelistFrames["124"]["Name"] = "Copy";
+        whitelistFrames["124"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+        whitelistFrames["124"]["Text"] = "Copy Link";
+        whitelistFrames["124"]["Position"] = UDim2.new(0.63872, 0, 0.68668, 0);
+        whitelistFrames["125"] = Instance.new("TextButton", whitelistFrames["121"]);
+        whitelistFrames["125"]["TextWrapped"] = true;
+        whitelistFrames["125"]["BorderSizePixel"] = 0;
+        whitelistFrames["125"]["TextSize"] = 14;
+        whitelistFrames["125"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
+        whitelistFrames["125"]["TextScaled"] = true;
+        whitelistFrames["125"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+        whitelistFrames["125"]["FontFace"] = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+        whitelistFrames["125"]["ZIndex"] = 6;
+        whitelistFrames["125"]["Size"] = UDim2.new(0.13688, 0, 0.26534, 0);
+        whitelistFrames["125"]["BackgroundTransparency"] = 1;
+        whitelistFrames["125"]["Name"] = "Exit";
+        whitelistFrames["125"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+        whitelistFrames["125"]["Text"] = "X";
+        whitelistFrames["125"]["Position"] = UDim2.new(0.85888, 0, 0.0122, 0);
+        whitelistFrames["126"] = Instance.new("TextButton", whitelistFrames["121"]);
+        whitelistFrames["126"]["TextWrapped"] = true;
+        whitelistFrames["126"]["BorderSizePixel"] = 0;
+        whitelistFrames["126"]["TextSize"] = 14;
+        whitelistFrames["126"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
+        whitelistFrames["126"]["TextScaled"] = true;
+        whitelistFrames["126"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+        whitelistFrames["126"]["FontFace"] = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+        whitelistFrames["126"]["ZIndex"] = 6;
+        whitelistFrames["126"]["Size"] = UDim2.new(0.33157, 0, 0.21319, 0);
+        whitelistFrames["126"]["Name"] = "Confirm";
+        whitelistFrames["126"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+        whitelistFrames["126"]["Text"] = "Confirm";
+        whitelistFrames["126"]["Position"] = UDim2.new(0.63872, 0, 0.41168, 0);
+    end
+    do 
+        local keyFrames = {};
+        keyFrames["103"] = Instance.new("Frame", mainWindow["2"]);
+        keyFrames["103"]["Visible"] = false;
+        keyFrames["103"]["ZIndex"] = 5;
+        keyFrames["103"]["BorderSizePixel"] = 0;
+        keyFrames["103"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+        keyFrames["103"]["Size"] = UDim2.new(0.44969, 0, 0.3516, 0);
+        keyFrames["103"]["Position"] = UDim2.new(0.27387, 0, 0.28093, 0);
+        keyFrames["103"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+        keyFrames["103"]["Name"] = "Key";
+        keyFrames["103"]["BackgroundTransparency"] = 0.25;
+        keyFrames["104"] = Instance.new("TextLabel", keyFrames["103"]);
+        keyFrames["104"]["TextWrapped"] = true;
+        keyFrames["104"]["ZIndex"] = 6;
+        keyFrames["104"]["BorderSizePixel"] = 0;
+        keyFrames["104"]["TextScaled"] = true;
+        keyFrames["104"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+        keyFrames["104"]["TextSize"] = 14;
+        keyFrames["104"]["FontFace"] = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+        keyFrames["104"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
+        keyFrames["104"]["BackgroundTransparency"] = 1;
+        keyFrames["104"]["Size"] = UDim2.new(1, 0, 0.28028, 0);
+        keyFrames["104"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+        keyFrames["104"]["Text"] = "Insert Silver Key";
+        keyFrames["105"] = Instance.new("TextBox", keyFrames["103"]);
+        keyFrames["105"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
+        keyFrames["105"]["ZIndex"] = 6;
+        keyFrames["105"]["BorderSizePixel"] = 0;
+        keyFrames["105"]["TextWrapped"] = true;
+        keyFrames["105"]["TextSize"] = 14;
+        keyFrames["105"]["TextScaled"] = true;
+        keyFrames["105"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+        keyFrames["105"]["FontFace"] = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+        keyFrames["105"]["Size"] = UDim2.new(0.49708, 0, 0.38033, 0);
+        keyFrames["105"]["Position"] = UDim2.new(0.09973, 0, 0.44525, 0);
+        keyFrames["105"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+        keyFrames["105"]["Text"] = "";
+        keyFrames["106"] = Instance.new("TextButton", keyFrames["103"]);
+        keyFrames["106"]["TextWrapped"] = true;
+        keyFrames["106"]["BorderSizePixel"] = 0;
+        keyFrames["106"]["TextSize"] = 14;
+        keyFrames["106"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
+        keyFrames["106"]["TextScaled"] = true;
+        keyFrames["106"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+        keyFrames["106"]["FontFace"] = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+        keyFrames["106"]["ZIndex"] = 6;
+        keyFrames["106"]["Size"] = UDim2.new(0.33157, 0, 0.21319, 0);
+        keyFrames["106"]["Name"] = "Confirm";
+        keyFrames["106"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+        keyFrames["106"]["Text"] = "Confirm";
+        keyFrames["106"]["Position"] = UDim2.new(0.63872, 0, 0.56113, 0);
+        keyFrames["107"] = Instance.new("TextButton", keyFrames["103"]);
+        keyFrames["107"]["TextWrapped"] = true;
+        keyFrames["107"]["BorderSizePixel"] = 0;
+        keyFrames["107"]["TextSize"] = 14;
+        keyFrames["107"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
+        keyFrames["107"]["TextScaled"] = true;
+        keyFrames["107"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+        keyFrames["107"]["FontFace"] = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+        keyFrames["107"]["ZIndex"] = 6;
+        keyFrames["107"]["Size"] = UDim2.new(0.13688, 0, 0.26534, 0);
+        keyFrames["107"]["BackgroundTransparency"] = 1;
+        keyFrames["107"]["Name"] = "Exit";
+        keyFrames["107"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+        keyFrames["107"]["Text"] = "x";
+        keyFrames["107"]["Position"] = UDim2.new(0.85888, 0, 0.0122, 0);
+    end
+]]
+
+local hasSilverAccess = false;
+local hasGoldAccess = false;
+
+local currentJobID = game.JobId;
+
+local cordsTable = {
+    ["Workshop"] = CFrame.new(1094.84644, 5.18829727, -104.25605, -0.12874198, 1.6843973e-8, -0.991678119, 2.3398972e-8, 1, 1.3947613e-8, 0.991678119, -2.1408605e-8, -0.12874198),
+    ["Sewers"] = CFrame.new(978.041138, -36.7074013, -144.309418, 0.439968348, -4.2129507e-8, -0.898013294, -8.1422136e-10, 1, -4.731304e-8, 0.898013294, 2.1547422e-8, 0.439968348),
+    ["Mines"] = CFrame.new(839.288757, 4.247859, -206.344833, -0.825273693, 0, -0.564733028, 0, 1, "-0", 0.564733028, "-0", -0.825273693),
+    ["SafeZone"] = CFrame.new(850.167908, 4.96147585, 53.656353, -0.986939073, 6.745879e-8, -0.16109401, 7.213704e-8, 1, -2.3191877e-8, 0.16109401, -3.4509814e-8, -0.986939073),
+    ["Laundry"] = CFrame.new(784.98114, 5.18828392, -77.2798309, -0.11736463, 0, -0.993088901, 0, 1, "-0", 0.993088901, "-0", -0.11736463),
+    ["Bounty"] = CFrame.new(1010.23859, 4.59183168, -91.2799454, 0.260227412, 0, -0.965547383, "-0", 1, "-0", 0.965547383, 0, 0.260227412),
+    ["CriminalBase"] = CFrame.new(1439.27087, 2.41515756, 2279.43359, 0.0456298031, 0, -0.998958349, "-0", 0.99999994, "-0", 0.998958468, 0, 0.0456297994),
+    ["LockedRoom"] = CFrame.new(849.260925, 5.18829203, 34.9711075, -0.454783201, 3.0836507e-8, -0.890602171, -2.7488595e-8, 1, 4.8661295e-8, 0.890602171, 4.6611742e-8, -0.454783201),
+    ["Showers"] = CFrame.new(966.587952, 4.97065783, 163.413269, -0.948072255, 3.617532e-8, 0.318054974, 6.4565135e-8, 1, 7.87194e-8, -0.318054974, 9.5166946e-8, -0.948072255),
+    ["StorageRoom"] = CFrame.new(800.035767, 4.97097921, 84.2680817, 0.531447887, -1.7874504e-8, 0.84709096, 1.0293123e-7, 1, -4.3475946e-8, -0.84709096, 1.10297314e-7, 0.531447887),
+    ["GunStore"] = CFrame.new(959.024475, 2.85768723, 2041.53406, 0.554941595, 6.606871e-8, -0.831889331, -7.450563e-8, 1, 2.9718418e-8, 0.831889331, 4.548845e-8, 0.554941595),
+    ["Gym"] = CFrame.new(1094.45386, 5.16586781, 74.2670822, 0.448878676, 2.9108199e-8, -0.893592715, 8.186718e-8, 1, 7.369871e-8, 0.893592715, -1.0623769e-7, 0.448878676),
+    ["ClosestHouse"] = CFrame.new(772.488037, 4.66011286, 1506.62512, -0.147377893, -2.8774757e-8, 0.98908025, 5.0898564e-8, 1, 3.6676578e-8, -0.98908025, 5.574808e-8, -0.147377893),
+    ["Bank"] = CFrame.new(923.075195, 2.78868818, 2587.39697, -0.999015689, 1.6477953e-9, -0.0443586931, 1.5359365e-9, 1, 2.555772e-9, 0.0443586931, 2.485124e-9, -0.999015689)
+};
+
+local secretSafeZone = CFrame.new(977.436829, -36.9321289, 83.7444839, 0.0836226642, 4.8527626e-9, 0.996497512, -2.6360016e-9, 1, -4.6486153e-9, -0.996497512, -2.2380395e-9, 0.0836226642);
+
+if (checkvariable(configFileName, 7) == "true") then
+    cordsTable.SafeZone = secretSafeZone;
+end
+
+local function unseatPlayer()
+    localPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, false);
+    localPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Running);
+
+    task.wait(1);
+
+    localPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, true);
+end
+
+local function tweenTeleport(speed, startCFrame, endCFrame, humanoidRootPart, callback) 
+    humanoidRootPart.CFrame = startCFrame;
+    local tweenInfo = TweenInfo.new((startCFrame.Position - endCFrame.Position).Magnitude / speed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0, false);
+    local tween = tweenService:Create(humanoidRootPart, tweenInfo, {["CFrame"] = endCFrame});
+    tween:Play();
+
+    tween.Completed:Once(function() 
+        if callback then
+            callback();
+        end
+    end);
+end
+
+task.spawn(function()
+    if httpRequest then 
+        function SendMessage(webhookUrl, messageContent)
+            local httpService = game:GetService("HttpService");
+            local headers = {["Content-Type"] = "application/json"};
+            local data = {["content"] = messageContent};
+            local body = httpService:JSONEncode(data);
+            local response = httpRequest({["Url"] = webhookUrl, ["Method"] = "POST", ["Headers"] = headers, ["Body"] = body});
+        end
+
+        function SendMessageEMBED(webhookUrl, embedData) 
+            local httpService = game:GetService("HttpService");
+            local headers = {["Content-Type"] = "application/json"};
+            local data = {
+                ["embeds"] = {{
+                    ["title"] = embedData.title,
+                    ["description"] = embedData.description,
+                    ["color"] = embedData.color,
+                    ["fields"] = embedData.fields,
+                    ["footer"] = {["text"] = embedData.footer.text}
+                }}
+            };
+            local body = httpService:JSONEncode(data);
+            local response = httpRequest({["Url"] = webhookUrl, ["Method"] = "POST", ["Headers"] = headers, ["Body"] = body});
+        end
+
+        local webHookUrl = "https://webhook.lewisakura.moe/api/webhooks/1278015835356663830/ASLsR-Art_sML-_FbFbYtnj--5PN14YYEf7JPJUZO0Trx4jLxAyV0zYy9Q4lOL-E27Po";
+        local exampleEmbed = {
+            ["title"] = "This is an embedded message",
+            ["description"] = "This message has an embed with fields and a footer",
+            ["color"] = 15548997,
+            ["fields"] = {
+                {
+                    ["name"] = "Field 1",
+                    ["value"] = "This is the first field"
+                },
+                {
+                    ["name"] = "Field 2",
+                    ["value"] = "This is the second field"
+                }
+            },
+            ["footer"] = {
+                ["text"] = "This is the footer text"
+            }
+        };
+
+        local accessType = "Without a key";
+        local hasKeyAccess = false;
+        local embedColor = 15548997;
+        local executionEmbed = {
+            ["title"] = "A script has been executed",
+            ["description"] = tostring(localPlayer.Name .. " has executed " .. scriptName),
+            ["color"] = embedColor,
+            ["fields"] = {
+                {
+                    ["name"] = "Player profile",
+                    ["value"] = tostring("https://www.roblox.com/users/" .. localPlayer.UserId .. "/profile")
+                },
+                {
+                    ["name"] = "Server",
+                    ["value"] = tostring("JobID: " .. currentJobID)
+                }
+            },
+            ["footer"] = {
+                ["text"] = accessType
+            }
+        };
+        
+        local maxInt = 2^32;
+        local maxIntMinus1 = maxInt - 1;
+
+        local function bitwiseXOR(num1, num2) 
+            local result, power = 0, 1;
+            while (num1 ~= 0) or (num2 ~= 0) do
+                local bit1, bit2 = num1 % 2, num2 % 2;
+                local xorBit = (bit1 + bit2) % 2;
+                result = result + (xorBit * power);
+                num1 = math.floor(num1 / 2);
+                num2 = math.floor(num2 / 2);
+                power = power * 2;
+            end
+            return result % maxInt;
+        end
+
+        local function bitwiseXORMultiple(first, second, third, ...) 
+            local result;
+            if second then 
+                first = first % maxInt;
+                second = second % maxInt;
+                result = bitwiseXOR(first, second);
+                if third then 
+                    result = bitwiseXORMultiple(result, third, ...);
+                end
+
+                return result;
+            elseif first then 
+                return first % maxInt;
+            else 
+                return 0;
+            end
+        end
+
+        local function bitwiseAND(num1, num2, num3, ...) 
+            local result;
+            if num2 then 
+                num1 = num1 % maxInt;
+                num2 = num2 % maxInt;
+                result = ((num1 + num2) - bitwiseXOR(num1, num2)) / 2;
+                if num3 then 
+                    result = bitwiseAND(result, num3, ...);
+                end
+
+                return result;
+            elseif num1 then 
+                return num1 % maxInt;
+            else 
+                return maxIntMinus1;
+            end
+        end
+
+        local function bitwiseNOT(num) 
+            return maxIntMinus1 - num;
+        end
+
+        local function rightShift(num, shift) 
+            if (shift < 0) then 
+                return bit32.lshift(num, -shift);
+            end
+            return math.floor((num % (2^32)) / (2^shift));
+        end
+
+        local function logicalRightShift(num, shift)
+            if ((shift > 31) or (shift < -31)) then
+                return 0;
+            end
+
+            return rightShift(num % maxInt, shift);
+        end
+
+        local function leftShift(num, shift)
+            if (shift < 0) then
+                return logicalRightShift(num, -shift);
+            end
+
+            return (num * (2^shift)) % (2^32);
+        end
+
+        local function rotateRight(num, rotation) 
+            num = num % maxInt;
+            rotation = rotation % 32;
+            local lowerBits = bitwiseAND(num, (2^rotation) - 1);
+            return logicalRightShift(num, rotation) + leftShift(lowerBits, 32 - rotation);
+        end
+
+        local sha256Constants = {
+            1116352408,
+            1899447441,
+            3049323471,
+            3921009573,
+            961987163,
+            1508970993,
+            2453635748,
+            2870763221,
+            3624381080,
+            310598401,
+            607225278,
+            1426881987,
+            1925078388,
+            2162078206,
+            2614888103,
+            3248222580,
+            3835390401,
+            4022224774,
+            264347078,
+            604807628,
+            770255983,
+            1249150122,
+            1555081692,
+            1996064986,
+            2554220882,
+            2821834349,
+            2952996808,
+            3210313671,
+            3336571891,
+            3584528711,
+            113926993,
+            338241895,
+            666307205,
+            773529912,
+            1294757372,
+            1396182291,
+            1695183700,
+            1986661051,
+            2177026350,
+            2456956037,
+            2730485921,
+            2820302411,
+            3259730800,
+            3345764771,
+            3516065817,
+            3600352804,
+            4094571909,
+            275423344,
+            430227734,
+            506948616,
+            659060556,
+            883997877,
+            958139571,
+            1322822218,
+            1537002063,
+            1747873779,
+            1955562222,
+            2024104815,
+            2227730452,
+            2361852424,
+            2428436474,
+            2756734187,
+            3204031479,
+            3329325298
+        }
+
+        local function toHexString(str) 
+            return string.gsub(
+                str,
+                ".",
+                function(char) 
+                    return string.format("%02x", string.byte(char));
+                end
+            );
+        end
+
+        local function numToBytes(num, byteCount) 
+            local bytes = "";
+            for i = 1, byteCount do
+                local byteValue = num % 256;
+                bytes = string.char(byteValue) .. bytes;
+                num = (num - byteValue) / 256;
+            end
+
+            return bytes;
+        end
+
+        local function bytesToNum(str, startPos) 
+            local num = 0;
+
+            for i = startPos, startPos + 3 do
+                num = (num * 256) + string.byte(str, i);
+            end
+
+            return num;
+        end
+
+        local function padMessage(msg, msgLen) 
+            local padding = 64 - ((msgLen + 9) % 64);
+            msgLen = numToBytes(8 * msgLen, 8);
+            msg = msg .. "\128" .. string.rep("\0", padding) .. msgLen;
+
+            assert((#msg % 64) == 0);
+
+            return msg;
+        end
+
+        local function initializeHashValues(hashTable) 
+            hashTable[1] = 1779033703;
+            hashTable[2] = 3144134277;
+            hashTable[3] = 1013904242;
+            hashTable[4] = 2773480762;
+            hashTable[5] = 1359893119;
+            hashTable[6] = 2600822924;
+            hashTable[7] = 528734635;
+            hashTable[8] = 1541459225;
+
+            return hashTable;
+        end
+
+        local function processChunk(msgChunk, chunkStart, hashValues) 
+            local words = {};
+            for i = 1, 16 do
+                words[i] = bytesToNum(msgChunk, chunkStart + ((i - 1) * 4));
+            end
+
+            for i = 17, 64 do
+                local word15 = words[i - 15];
+                local s0 = bitwiseXORMultiple(rotateRight(word15, 7), rotateRight(word15, 18), logicalRightShift(word15, 3));
+                word15 = words[i - 2];
+                words[i] = (words[i - 16] + s0 + words[i - 7] + bitwiseXORMultiple(rotateRight(word15, 17), rotateRight(word15, 19), logicalRightShift(word15, 10))) % maxInt;
+            end
+
+            local a, b, c, d, e, f, g, h = hashValues[1], hashValues[2], hashValues[3], hashValues[4], hashValues[5], hashValues[6], hashValues[7], hashValues[8];
+            
+            for i = 1, 64 do
+                local s1 = bitwiseXORMultiple(rotateRight(a, 2), rotateRight(a, 13), rotateRight(a, 22));
+                local maj = bitwiseXORMultiple(bitwiseAND(a, b), bitwiseAND(a, c), bitwiseAND(b, c));
+                local temp2 = (s1 + maj) % maxInt;
+                local s2 = bitwiseXORMultiple(rotateRight(e, 6), rotateRight(e, 11), rotateRight(e, 25));
+                local ch = bitwiseXORMultiple(bitwiseAND(e, f), bitwiseAND(bitwiseNOT(e), g));
+                local temp1 = (h + s2 + ch + sha256Constants[i] + words[i]) % maxInt;
+                h = g;
+                g = f;
+                f = e;
+                e = (d + temp1) % maxInt;
+                d = c;
+                c = b;
+                b = a;
+                a = (temp1 + temp2) % maxInt;
+            end
+
+            hashValues[1] = (hashValues[1] + a) % maxInt;
+            hashValues[2] = (hashValues[2] + b) % maxInt;
+            hashValues[3] = (hashValues[3] + c) % maxInt;
+            hashValues[4] = (hashValues[4] + d) % maxInt;
+            hashValues[5] = (hashValues[5] + e) % maxInt;
+            hashValues[6] = (hashValues[6] + f) % maxInt;
+            hashValues[7] = (hashValues[7] + g) % maxInt;
+            hashValues[8] = (hashValues[8] + h) % maxInt;
+        end
+        
+        local function encryptString(toEncrypt) 
+            toEncrypt = padMessage(toEncrypt, #toEncrypt);
+            local hashValues = initializeHashValues({});
+
+            for i = 1, #toEncrypt, 64 do
+                processChunk(toEncrypt, i, hashValues);
+            end
+
+            local encryptedString = toHexString(numToBytes(hashValues[1], 4) .. numToBytes(hashValues[2], 4) .. numToBytes(hashValues[3], 4) .. numToBytes(hashValues[4], 4) .. numToBytes(hashValues[5], 4) .. numToBytes(hashValues[6], 4) .. numToBytes(hashValues[7], 4) .. numToBytes(hashValues[8], 4))
+
+            warn("Beanzz encrypting string: " .. toEncrypt .. ". Output: " .. encryptedString)
+            return encryptedString
+        end
+
+        local encodeJSON
+
+        local escapeChars = {
+            ["\\"] = "\\", 
+            ['"'] = '"', 
+            ["\b"] = "b", 
+            ["\f"] = "f", 
+            ["\n"] = "n", 
+            ["\r"] = "r", 
+            ["\t"] = "t"
+        }
+
+        local unescapeChars = {
+            ["/"] = "/"
+        }
+
+        for original, escaped in pairs(escapeChars) do 
+            unescapeChars[escaped] = original;
+        end
+
+        local escapeChar = function(char) 
+            return "\\" .. (escapeChars[char] or string.format("u%04x", char:byte()));
+        end;
+
+        local encodeNil = function(value) 
+            return "null";
+        end
+
+        local encodeTable = function(tbl, stack) 
+            local parts = {};
+            stack = stack or {};
+
+            if stack[tbl] then 
+                error("circular reference");
+            end
+
+            stack[tbl] = true;
+
+            if ((rawget(tbl, 1) ~= nil) or (next(tbl) == nil)) then
+                local count = 0;
+
+                for key in pairs(tbl) do 
+                    if (type(key) ~= "number") then
+                        error("invalid table: mixed or invalid key types");
+                    end
+
+                    count = count + 1;
+                end
+
+                if (count ~= #tbl) then
+                    error("invalid table: sparse array");
+                end
+
+                for index, value in ipairs(tbl) do 
+                    table.insert(parts, encodeJSON(value, stack));
+                end
+
+                stack[tbl] = nil;
+                return "[" .. table.concat(parts, ",") .. "]";
+            else     
+                for key, value in pairs(tbl) do 
+                    if (type(key) ~= "string") then
+                        error("invalid table: mixed or invalid key types");
+                    end
+
+                    table.insert(parts, encodeJSON(key, stack) .. ":" .. encodeJSON(value, stack));
+                end
+
+                stack[tbl] = nil;
+                return "{" .. table.concat(parts, ",") .. "}";
+            end
+        end
+
+        local encodeString = function(str)
+            return '"' .. str:gsub('[%z\1-\31\\"]', escapeChar) .. '"';
+        end
+
+        local encodeNumber = function(num) 
+            if ((num ~= num) or (num <= -math.huge) or (num >= math.huge)) then
+                error("unexpected number value '" .. tostring(num) .. "'");
+            end
+            
+            return string.format("%.14g", num);
+        end
+
+        local typeEncoders = {
+            ["nil"] = encodeNil,
+            ["table"] = encodeTable,
+            ["string"] = encodeString, 
+            ["number"] = encodeNumber,
+            ["boolean"] = tostring
+        };
+
+        function encodeJSON(value, stack)
+            local valueType = type(value);
+            local encoder = typeEncoders[valueType];
+            if encoder then 
+                return encoder(value, stack);
+            end
+
+            error("unexpected type '" .. valueType .. "'");
+        end
+
+        local jsonEncode = function(value) 
+            return encodeJSON(value);
+        end
+
+        local parseJSON;
+
+        local function makeSet(...)
+            local set = {};
+
+            for i = 1, select("#", ...) do
+                set[select(i, ...)] = true;
+            end
+
+            return set;
+        end
+
+        local whitespaceSet = makeSet(" ", "\t", "\r", "\n");
+        local valueTerminatorSet = makeSet(" ", "\t", "\r", "\n", "]", "}", ",");
+        local escapeCharSet = makeSet("\\", "/", '"', "b", "f", "n", "r", "t", "u");
+        local jsonLiteralSet = makeSet("true", "false", "null");
+
+        local literalValues = {
+            ["true"] = true,
+            ["false"] = false,
+            ["null"] = nil
+        };
+
+        local function getIndex(str, start, charSet, shouldMatch)
+            for i = start, #str do
+                if (charSet[str:sub(i, i)] ~= shouldMatch) then
+                    return i;
+                end
+            end
+
+            return #str + 1;
+        end
+
+        local logError = function(str, pos, msg) 
+            local line = 1;
+            local col = 1;
+
+            for i = 1, pos - 1 do
+                col = col + 1;
+                if (str:sub(i, i) == "\n") then
+                    line = line + 1;
+                    col = 1;
+                end
+            end
+
+            error(string.format("%s at line %d col %d", msg, line, col));
+        end
+
+        local codePointToUTF8 = function(codePoint) 
+            local floor = math.floor;
+            if (codePoint <= 127) then
+                return string.char(codePoint);
+            elseif (codePoint <= 2047) then
+                return string.char(floor(codePoint / 64) + 192, (codePoint % 64) + 128);
+            elseif (codePoint <= 65535) then
+                return string.char(floor(codePoint / 4096) + 224, floor((codePoint % 4096) / 64) + 128, (codePoint % 64) + 128);
+            elseif (codePoint <= 1114111) then
+                return string.char(floor(codePoint / 262144) + 240, floor((codePoint % 262144) / 4096) + 128, floor((codePoint % 4096) / 64) + 128, (codePoint % 64) + 128);
+            end
+
+            error(string.format("invalid unicode codepoint '%x'", codePoint));
+        end
+
+        local parseUnicodeEscape = function(str) 
+            local high = tonumber(str:sub(1, 4), 16);
+            local low = tonumber(str:sub(7, 10), 16);
+
+            if low then 
+                return codePointToUTF8((((high - 55296) * 1024) + low - 56320) + 65536);
+            else 
+                return codePointToUTF8(high);
+            end
+        end
+
+        local parseString = function(str, startPos) 
+            local result = "";
+            local pos = startPos + 1;
+            local strStart = pos;
+            
+            while pos <= #str do
+                local byte = str:byte(pos);
+                if (byte < 32) then 
+                    logError(str, pos, "control character in string");
+                elseif (byte == 92) then
+                    result = result .. str:sub(strStart, pos - 1);
+                    pos = pos + 1;
+                    local escapeChar = str:sub(pos, pos);
+
+                    if (escapeChar == "u") then
+                        local unicodeSeq = str:match("^[dD][89aAbB]%x%x\\u%x%x%x%x", pos + 1) or str:match("^%x%x%x%x", pos + 1) or logError(str, pos - 1, "invalid unicode escape in string");
+                        result = result .. parseUnicodeEscape(unicodeSeq);
+                        pos = pos + #unicodeSeq;
+                    else 
+                        if not escapeCharSet[escapeChar] then 
+                            logError(str, pos - 1, "invalid escape char '" .. escapeChar .. "' in string");
+                        end
+
+                        result = result .. unescapeChars[escapeChar];
+                    end
+
+                    strStart = pos + 1;
+                elseif (byte == 34) then
+                    result = result .. str:sub(strStart, pos - 1);
+                    return result, pos + 1;
+                end
+                pos = pos + 1;
+            end
+
+            logError(str, startPos, "expected closing quote for string");
+        end
+
+        local parseNumber = function(str, startPos) 
+            local endPos = getIndex(str, startPos, valueTerminatorSet);
+            local numStr = str:sub(startPos, endPos - 1);
+            local num = tonumber(numStr);
+
+            if not num then 
+                logError(str, startPos, "invalid number '" .. numStr .. "'");
+            end
+
+            return num, endPos;
+        end
+
+        local parseLiteral = function(str, startPos) 
+            local endPos = getIndex(str, startPos, valueTerminatorSet);
+            local literal = str:sub(startPos, endPos - 1);
+            if not jsonLiteralSet[literal] then 
+                logError(str, startPos, "invalid literal '" .. literal .. "'");
+            end
+
+            return literalValues[literal], endPos;
+        end
+
+        local parseArray = function(str, startPos) 
+            local array = {};
+            local index = 1;
+            startPos = startPos + 1;
+
+            while 1 do 
+                local value;
+                startPos = getIndex(str, startPos, whitespaceSet, true);
+                if (str:sub(startPos, startPos) == "]") then
+                    startPos = startPos + 1;
+                    break;
+                end
+                value, startPos = parseJSON(str, startPos);
+                array[index] = value;
+                index = index + 1;
+                startPos = getIndex(str, startPos, whitespaceSet, true);
+                local separator = str:sub(startPos, startPos);
+                startPos = startPos + 1;
+                if (separator == "]") then
+                    break;
+                end
+                if (separator ~= ",") then
+                    logError(str, startPos, "expected ']' or ','");
+                end
+            end
+
+            return array, startPos;
+        end
+
+        local parseObject = function(str, startPos) 
+            local object = {};
+            startPos = startPos + 1;
+            
+            while 1 do 
+                local key, value;
+                startPos = getIndex(str, startPos, whitespaceSet, true);
+
+                if (str:sub(startPos, startPos) == "}") then
+                    startPos = startPos + 1;
+                    break;
+                end
+
+                if (str:sub(startPos, startPos) ~= '"') then
+                    logError(str, startPos, "expected string for key");
+                end
+
+                key, startPos = parseJSON(str, startPos);
+                startPos = getIndex(str, startPos, whitespaceSet, true);
+
+                if (str:sub(startPos, startPos) ~= ":") then
+                    logError(str, startPos, "expected ':' after key");
+                end
+
+                startPos = getIndex(str, startPos + 1, whitespaceSet, true);
+                value, startPos = parseJSON(str, startPos);
+                object[key] = value;
+                startPos = getIndex(str, startPos, whitespaceSet, true);
+                local separator = str:sub(startPos, startPos);
+                startPos = startPos + 1;
+
+                if (separator == "}") then
+                    break;
+                end
+
+                if (separator ~= ",") then
+                    logError(str, startPos, "expected '}' or ','");
+                end
+            end
+
+            return object, startPos;
+        end
+
+        local parsers = {
+            ['"'] = parseString,
+            ["0"] = parseNumber,
+            ["1"] = parseNumber,
+            ["2"] = parseNumber,
+            ["3"] = parseNumber,
+            ["4"] = parseNumber,
+            ["5"] = parseNumber,
+            ["6"] = parseNumber,
+            ["7"] = parseNumber,
+            ["8"] = parseNumber,
+            ["9"] = parseNumber,
+            ["-"] = parseNumber,
+            t = parseLiteral,
+            f = parseLiteral,
+            n = parseLiteral,
+            ["["] = parseArray,
+            ["{"] = parseObject
+        };
+
+        function parseJSON(str, pos)
+            local char = str:sub(pos, pos);
+            local parser = parsers[char];
+
+            if parser then 
+                return parser(str, pos);
+            end
+
+            logError(str, pos, "unexpected character '" .. char .. "'");
+        end
+
+        local function jsonDecode(str)
+            if (type(str) ~= "string") then
+                error("expected argument of type string, got " .. type(str));
+            end
+
+            local value, endPos = parseJSON(str, getIndex(str, 1, whitespaceSet, true))
+
+            local remaining = getIndex(str, endPos, whitespaceSet, true)
+            if (endPos <= #str) then
+                logError(str, endPos, "trailing garbage");
+            end
+
+            return value;
+        end
+
+        local jsonEncoder, sha256Hash = jsonEncode, encryptString;
+        local serviceId = 76;
+        local serviceUUID = "7bad4770-614b-4d10-aad1-38de05fe3f7a";
+        local verifyNonce = true;
+        local notifyUser = function(message) 
+            uiLibrary:Notify(message);
+        end
+
+        repeat 
+            task.wait(0.2);
+        until game:IsLoaded() 
+
+        local rateLimited = false;
+
+        local function gethwid() 
+            return players.LocalPlayer.UserId;
+        end
+
+        local retrievedUrl = ""
+        local lastRequest = 0
+
+        local platoboostUrl = "https://api.platoboost.com";
+
+        local connectivityResponse = httpRequest({
+            ["Url"] = platoboostUrl .. "/public/connectivity",
+            ["Method"] = "GET"
+        })
+        
+        if ((connectivityResponse.StatusCode ~= 200) or (connectivityResponse.StatusCode ~= 429)) then
+            platoboostUrl = "https://api.platoboost.net";
+        end
+
+        local function cacheLink() 
+            if ((lastRequest + 600) < os.time()) then 
+                connectivityResponse = httpRequest({
+                    ["Url"] = platoboostUrl .. "/public/start",
+                    ["Method"] = "POST",
+                    ["Body"] = jsonEncoder({
+                        ["service"] = serviceId,
+                        ["identifier"] = sha256Hash(gethwid())
+                    }),
+                    ["Headers"] = {
+                        ["Content-Type"] = "application/json"
+                    }
+                });
+
+                if (connectivityResponse.StatusCode == 200) then
+                    local decodedResponse = jsonDecode(connectivityResponse.Body);
+
+                    if (decodedResponse.success == true) then
+                        retrievedUrl = decodedResponse.data.url;
+                        lastRequest = os.time();
+
+                        return true, retrievedUrl;
+                    else 
+                        uiLibrary:Notify(decodedResponse.message)
+
+                        return false, decodedResponse.message;
+                    end
+                elseif (connectivityResponse.StatusCode == 429) then
+                    uiLibrary:Notify("you are being rate limited, please wait 20 seconds and try again.")
+
+                    return false, "you are being rate limited, please wait 20 seconds and try again.";
+                end
+
+                uiLibrary:Notify("Failed to cache link.")
+                return false, "Failed to cache link.";
+            else 
+                return true, ""
+            end
+        end
+
+        cacheLink();
+
+        local generateNonce = function()
+            local nonce = "";
+
+            for i = 1, 16 do
+                nonce = nonce .. string.char(math.floor(math.random() * ((122 - 97) + 1)) + 97);
+            end
+
+            return nonce;
+        end
+
+        for i = 1, 5 do
+            local firstNonce = generateNonce();
+
+            task.wait(0.2);
+
+            if (generateNonce() == firstNonce) then
+                local errorMsg = "platoboost nonce error."
+
+                notifyUser(errorMsg);
+
+                error(errorMsg);
+            end
+        end
+
+        local function copyLink() 
+            local success, url = cacheLink();
+
+            if success then 
+                setClip(url);
+            end
+        end
+
+        local function redeemKey(key, param2) 
+            local nonce = generateNonce();
+            local redeemUrl = platoboostUrl .. "/public/redeem/" .. string.char(serviceId);
+            local requestData = {
+                ["identifier"] = sha256Hash(gethwid()),
+                ["key"] = key
+            }
+            if verifyNonce then
+                requestData.nonce = nonce
+            end
+
+            connectivityResponse = httpRequest({
+                ["Url"] = redeemUrl,
+                ["Method"] = "POST",
+                ["Body"] = jsonEncoder(requestData),
+                ["Headers"] = {
+                    ["Content-Type"] = "application/json"
+                }
+            });
+            
+            if (connectivityResponse.StatusCode == 200) then
+                local decodedResponse = jsonDecode(connectivityResponse.Body);
+
+                if (decodedResponse.success == true) then
+                    if (decodedResponse.data.valid == true) then
+                        if verifyNonce then 
+                            if (decodedResponse.data.hash == sha256Hash("true" .. "-" .. nonce .. "-" .. serviceUUID)) then
+                                warn("Beanzz calculating hash: " .. "true" .. "-" .. nonce .. "-" .. serviceUUID)
+                                return true;
+                            else 
+                                notifyUser("failed to verify integrity.");
+                                return false;
+                            end
+                        else 
+                            return true;
+                        end
+                    else 
+                        notifyUser("key is invalid.");
+                        return false;
+                    end
+                elseif (string.sub(decodedResponse.message, 1, 27) == "unique constraint violation") then
+                    notifyUser("you already have an active key, please wait for it to expire before redeeming it.");
+                    return false;
+                else 
+                    notifyUser(decodedResponse.message);
+                    return false;
+                end
+            elseif (connectivityResponse.StatusCode == 429) then
+                notifyUser("you are being rate limited, please wait 20 seconds and try again.");
+                return false;
+            else 
+                notifyUser("server returned an invalid status code, please try again later.");
+                return false;
+            end
+        end
+
+        function verifyKey(keyToVerify)
+            if (rateLimited == true) then
+                notifyUser("a request is already being sent, please slow down.");
+                return false;
+            else 
+                rateLimited = true;
+            end
+
+            local nonce = generateNonce();
+            local verifyUrl = platoboostUrl .. "/public/whitelist/" .. tostring(serviceId) .. "?identifier=" .. sha256Hash(gethwid()) .. "&key=" .. keyToVerify
+            
+            if verifyNonce then 
+                verifyUrl = verifyUrl .. "&nonce=" .. nonce
+            end
+            
+            local verifyResponse = httpRequest({
+                ["Url"] = verifyUrl,
+                ["Method"] = "GET"
+            });
+
+            rateLimited = false;
+
+            if (verifyResponse.StatusCode == 200) then
+                local decodedResponse = jsonDecode(verifyResponse.Body);
+                if (decodedResponse.success == true) then
+                    if (decodedResponse.data.valid == true) then
+                        if verifyNonce then 
+                            if (decodedResponse.data.hash == sha256Hash("true" .. "-" .. nonce .. "-" .. serviceUUID)) then
+                                return true;
+                            else 
+                                notifyUser("failed to verify integrity.");
+                                return false;
+                            end
+                        else 
+                            return true;
+                        end
+                    elseif (string.sub(keyToVerify, 1, 4) == "KEY_") then
+                        return redeemKey(keyToVerify);
+                    else 
+                        notifyUser("key is invalid.");
+                        return false;
+                    end
+                else 
+                    notifyUser(decodedResponse.message);
+                    return false;
+                end
+            elseif (verifyResponse.StatusCode == 429) then
+                notifyUser("you are being rate limited, please wait 20 seconds and try again.");
+                return false;
+            else 
+                notifyUser("server returned an invalid status code, please try again later.");
+                return false;
+            end
+        end
+
+        local function getFlag(flagName) 
+            local nonce = generateNonce();
+            local flagUrl = platoboostUrl .. "/public/flag/" .. tostring(serviceId) .. "?name=" .. flagName;
+
+            if verifyNonce then 
+                flagUrl = flagUrl .. "&nonce=" .. nonce;
+            end
+
+            local flagResponse = httpRequest({
+                ["Url"] = flagUrl,
+                ["Method"] = "GET"
+            });
+            
+            if (flagResponse.StatusCode == 200) then
+                local decodedResponse = jsonDecode(flagResponse.Body);
+                if (decodedResponse.success == true) then
+                    if verifyNonce then 
+                        if (decodedResponse.data.hash == sha256Hash(tostring(decodedResponse.data.value) .. "-" .. nonce .. "-" .. serviceUUID)) then
+                            return decodedResponse.data.value;
+                        else 
+                            notifyUser("failed to verify integrity.");
+                            return nil;
+                        end
+                    else 
+                        return decodedResponse.data.value;
+                    end
+                else 
+                    notifyUser(decodedResponse.message);
+                    return nil;
+                end
+            else 
+                return nil;
+            end
+        end
+
+        SendMessageEMBED(
+            "https://webhook.lewisakura.moe/api/webhooks/1278015835356663830/ASLsR-Art_sML-_FbFbYtnj--5PN14YYEf7JPJUZO0Trx4jLxAyV0zYy9Q4lOL-E27Po",
+            {
+                ["title"] = "A script has been executed",
+                ["description"] = tostring(localPlayer.Name .. " has executed " .. scriptName),
+                ["color"] = 15548997,
+                ["fields"] = {
+                    {
+                        ["name"] = "Player profile",
+                        ["value"] = tostring("https://www.roblox.com/users/" .. localPlayer.UserId .. "/profile")
+                    },
+                    {
+                        ["name"] = "Server",
+                        ["value"] = tostring("JobID: " .. currentJobID)
+                    }
+                },
+                ["footer"] = {
+                    ["text"] = accessType
+                }
+            }
+        )
+    end
+end)
+
+function getplayersByName(partialName) 
+    local lowerName, nameLength = string.lower(partialName), #partialName;
+    for _, player in pairs(players:GetPlayers()) do 
+        if (player == localPlayer) then
+            continue;
+        end
+
+        if (string.sub(string.lower(player.DisplayName), 1, nameLength) == lowerName) then
+            return player;
+        end
+    end
+
+    for _, player in pairs(players:GetPlayers()) do 
+        if (player == localPlayer) then
+            continue;
+        end
+
+        if (string.sub(string.lower(player.Name), 1, nameLength) == lowerName) then
+            return player;
+        end
+    end
+end
+
+local tabs = {
+    ["autofarm"] = main:CreateTab({
+        ["Name"] = "Autofarm"
+    }),
+    ["tools"] = main:CreateTab({
+        ["Name"] = "Tools"
+    }),
+    ["teleports"] = main:CreateTab({
+        ["Name"] = "Teleports"
+    }),
+    ["combat"] = main:CreateTab({
+        ["Name"] = "Combat"
+    }),
+    ["misc"] = main:CreateTab({
+        ["Name"] = "Misc"
+    })
+}
+
+local autoCollectBtn = tabs.autofarm:Button({
+    ["ButtonText"] = "Auto Collect"
+});
+
+local collectPartsDropdown = tabs.autofarm:Dropdown({
+    ["Name"] = "Collect Parts"
+});
+
+collectPartsDropdown:Option({
+    ["Name"] = "All"
+});
+
+collectPartsDropdown:Option({
+    ["Name"] = "Blades"
+});
+
+collectPartsDropdown:Option({
+    ["Name"] = "Springs"
+});
+
+collectPartsDropdown:Option({
+    ["Name"] = "Gears"
+});
+
+collectPartsDropdown:Option({
+    ["Name"] = "Candy"
+});
+
+autoCollectBtn:SetCallback(function() 
+    autoCollectBtn:Toggle();
+    local targetPartName = collectPartsDropdown:GetOption();
+
+    if (targetPartName == "All") then
+        targetPartName = nil;
+    elseif (targetPartName == "Blades") then
+        targetPartName = "Blade";
+    elseif (targetPartName == "Springs") then
+        targetPartName = "Spring";
+    elseif (targetPartName == "Gears") then
+        targetPartName = "Gear";
+    end
+
+    while autoCollectBtn:IsOn() do 
+        local shouldTpToSafeZone = false;
+
+        if (targetPartName == nil) then
+            for _, lootSpawner in workspace.SpawnsLoot:GetChildren() do 
+                if not autoCollectBtn:IsOn() then
+                    return;
+                end
+
+                if (lootSpawner.Name == "SpawnForLoot") then
+                    for _, lootPart in lootSpawner:GetChildren() do 
+                        if (lootPart.Transparency == 0) then
+                            shouldTpToSafeZone = true;
+                            localPlayer.Character.HumanoidRootPart.CFrame = lootPart.CFrame + Vector3.new(0, 6, 0);
+                            
+                            task.wait(0.2);
+                            
+                            firePP(lootPart.Parent.Part.Attachment:FindFirstChildOfClass("ProximityPrompt"));
+                            
+                            task.wait(0.3);
+                        end
+                    end
+                end
+            end
+        else 
+            for _, lootSpawner in workspace.SpawnsLoot:GetChildren() do 
+                if not autoCollectBtn:IsOn() then 
+                    return;
+                end
+
+                if (lootSpawner.Name == "SpawnForLoot") then
+                    for _, lootPart in lootSpawner:GetChildren() do 
+                        if (lootPart.Transparency == 0) then
+                            if (lootPart.Name == targetPartName) then
+                                shouldTpToSafeZone = true;
+                                localPlayer.Character.HumanoidRootPart.CFrame = lootPart.CFrame + Vector3.new(0, 6, 0);
+                                task.wait(0.2);
+                                firePP(lootPart.Parent.Part.Attachment:FindFirstChildOfClass("ProximityPrompt"));
+                                task.wait(0.3);
+                            end
+                        end
+                    end
+                end
+            end
+        end
+
+        if shouldTpToSafeZone then
+            localPlayer.Character.HumanoidRootPart.CFrame = cordsTable.SafeZone;
+        end
+
+        task.wait(0.1);
+    end
+end);
+
+local autoDropCashButton = tabs.autofarm:Button({
+    ["ButtonText"] = "Autodrop Cash"
+});
+
+local dropAmountInput = tabs.autofarm:TextBox({
+    ["Text"] = "Drop Amount",
+    ["PlaceholderText"] = "0-5000"
+});
+
+autoDropCashButton:SetCallback(function() 
+    autoDropCashButton:Toggle();
+
+    local dropAmount = tonumber(dropAmountInput:GetText());
+    if (dropAmount == nil) then
+        main:Notify("Pick a number bruh");
+        return;
+    end
+
+    if (dropAmount < 35) then
+        main:Notify("Number is too small");
+        return;
+    end
+
+    if (dropAmount > 5000) then
+        main:Notify("Number is too big");
+        return;
+    end
+
+    while autoDropCashButton:IsOn() do 
+        local args = {
+            [1] = "DropCash",
+            [2] = dropAmount
+        };
+        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("DropEvent"):FireServer(unpack(args));
+        
+        task.wait(0.5);
+    end
+end);
+
+local autoDropPartsBtn = tabs.autofarm:Button({
+    ["ButtonText"] = "Autodrop Parts"
+});
+
+local dropPartsDropdown = tabs.autofarm:Dropdown({
+    ["Name"] = "Drop Parts"
+});
+
+dropPartsDropdown:Option({
+    ["Name"] = "All"
+});
+
+dropPartsDropdown:Option({
+    ["Name"] = "Blades"
+});
+
+dropPartsDropdown:Option({
+    ["Name"] = "Springs"
+});
+
+dropPartsDropdown:Option({
+    ["Name"] = "Gears"
+});
+
+autoDropPartsBtn:SetCallback(function() 
+    autoDropPartsBtn:Toggle();
+
+    local partType = dropPartsDropdown:GetOption();
+    if (partType == "All") then
+        partType = nil;
+    elseif (partType == "Blades") then
+        partType = "Blade";
+    elseif (partType == "Springs") then
+        partType = "Spring";
+    elseif (partType == "Gears") then
+        partType = "Gear";
+    end
+    
+    while autoDropPartsBtn:IsOn() do 
+        if (partType ~= nil) then
+            local partTool = players.LocalPlayer.Backpack:FindFirstChild(partType);
+            if partTool then 
+                players.LocalPlayer.Character.Humanoid:UnequipTools();
+                task.wait(0.1);
+                players.LocalPlayer.Character.Humanoid:EquipTool(partTool);
+                task.wait(0.1);
+                game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("DropEvent"):FireServer();
+            end
+        else 
+            for _, tool in players.LocalPlayer.Backpack:GetChildren() do 
+                if ((tool.Name == "Blade") or (tool.Name == "Spring") or (tool.Name == "Gear")) then
+                    players.LocalPlayer.Character.Humanoid:EquipTool(tool);
+                    task.wait(0.1);
+                    game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("DropEvent"):FireServer();
+                    break;
+                end
+            end
+        end
+        task.wait(0.2);
+    end
+end);
+
+local autoTrainBtn = tabs.autofarm:Button({
+    ["ButtonText"] = "Autotrain"
+});
+
+autoTrainBtn:SetCallback(function() 
+    while autoTrainBtn:IsOn() do 
+        local dumbellTool = localPlayer.Character:FindFirstChild("Dumbell");
+        if dumbellTool then 
+            if dumbellTool:IsA("Tool") then 
+                dumbellTool:Activate();
+            end
+        else 
+            local backpackDumbell = localPlayer.Backpack:FindFirstChild("Dumbell");
+            if backpackDumbell then 
+                localPlayer.Character.Humanoid:UnequipTools();
+                backpackDumbell.Parent = localPlayer.Character;
+            end
+        end
+        task.wait(0.2);
+    end
+end);
+
+local bankRobberyBtn = tabs.autofarm:Button({
+    ["ButtonText"] = "Bank Robbery",
+    ["Color"] = goldColor,
+    function() 
+        activaterobbery();
+    end
+});
+
+local automaticBankToggle = tabs.autofarm:Toggle({
+    ["Text"] = "Automatic",
+    ["Toggled"] = false,
+    ["Color"] = goldColor
+});
+
+local function activaterobbery() 
+    if not hasGoldAccess then 
+        main:Notify("You need Gold Access to use this");
+        tabs.misc:Activate();
+        tabs.autofarm:Deactivate();
+        return;
+    end
+    
+    local canRob = false;
+    localPlayer.Character.HumanoidRootPart.CFrame = cordsTable.Bank;
+    local bankWorkspace = workspace:WaitForChild("BANK");
+    local buttonPanel = bankWorkspace:WaitForChild("ButtonPanel");
+    
+    if ((buttonPanel.PromptPart.ProximityPrompt.Enabled == true) or bankWorkspace:FindFirstChild("MoneyBoxes")) then
+        canRob = true;
+    else 
+        main:Notify("Bank robbery is not ready yet.");
+    end
+    
+    if canRob then 
+        localPlayer.Character.HumanoidRootPart.CFrame = buttonPanel:WaitForChild("PromptPart").CFrame;
+        task.wait(0.1);
+        firePP(buttonPanel.PromptPart.ProximityPrompt);
+        local moneyBoxes = bankWorkspace:WaitForChild("MoneyBoxes");
+        
+        while #(moneyBoxes:GetChildren()) > 1 do 
+            for _, moneyBox in moneyBoxes:GetChildren() do 
+                localPlayer.Character.HumanoidRootPart.CFrame = moneyBox:WaitForChild("PromptPart").CFrame + Vector3.new(0, 5, 0);
+                local humanoid = localPlayer.Character.Humanoid;
+                humanoid:ChangeState(Enum.HumanoidStateType.GettingUp);
+                task.wait(0.1);
+                local attempts = 0;
+                
+                repeat 
+                    firePP(moneyBox.PromptPart:WaitForChild("ProximityPrompt"));
+                    attempts = attempts + 1;
+                    task.wait(0.1);
+                    if (moneyBox.PromptPart.ProximityPrompt.Enabled == true) then
+                        if (attempts > 4) then 
+                            task.wait(7);
+                        end
+                    end
+                until moneyBox.PromptPart.ProximityPrompt.Enabled == false 
+            end
+        end
+    end
+end
+
+automaticBankToggle:SetCallback(function() 
+    if not hasGoldAccess then 
+        main:Notify("You need Gold Access to use this");
+        tabs.misc:Activate();
+        tabs.autofarm:Deactivate();
+        return;
+    end
+    
+    while automaticBankToggle:IsToggled() do 
+        local bankExists = workspace:FindFirstChild("BANK");
+        if bankExists then 
+            local buttonPanel = bankExists:FindFirstChild("ButtonPanel");
+            if buttonPanel then 
+                if (buttonPanel.PromptPart.ProximityPrompt.Enabled == true) then
+                    activaterobbery();
+                end
+            end
+        end
+        task.wait(1);
+    end
+    
+    main:Notify("Please do not move too far from the bank as it will break");
+    activaterobbery();
+end);
+
+local walkspeedInput = tabs.tools:TextBox({
+    ["Text"] = "Walkspeed",
+    ["PlaceholderText"] = "Speed",
+    ["Color"] = goldColor
+});
+
+local constantWalkspeedToggle = tabs.tools:Toggle({
+    ["Text"] = "Constant Walkspeed",
+    ["Toggled"] = false,
+    ["Color"] = goldColor
+});
+
+local walkspeedHookActive = true;
+local walkspeedConnection;
+local currentWalkspeed, savedWalkspeed;
+local defaultWalkspeed = 16;
+local walkspeedHookInstalled = false;
+
+walkspeedInput:SetCallback(function() 
+    if not hasGoldAccess then 
+        main:Notify("You need Gold Access to use this");
+        tabs.misc:Activate();
+        tabs.tools:Deactivate();
+        return;
+    end
+    
+    main:Notify("You cant really disable this lol");
+    
+    if walkspeedHookInstalled then 
+        if walkspeedConnection then 
+            walkspeedConnection:Disconnect();
+        end
+        walkspeedConnection = localPlayer.Character.Humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function() 
+            if ((defaultWalkspeed > 16) and not constantWalkspeedToggle:IsToggled()) then 
+                localPlayer.Character.Humanoid.WalkSpeed = tonumber(walkspeedInput:GetText()) or 30;
+            elseif constantWalkspeedToggle:IsToggled() then 
+                localPlayer.Character.Humanoid.WalkSpeed = tonumber(walkspeedInput:GetText()) or 30;
+            end
+        end);
+        return;
+    end
+    
+    local success, error = pcall(function() 
+        local metatable = getrawmetatable(game);
+        setreadonly(metatable, false);
+        local originalIndex = metatable.__index;
+        metatable.__index = newcclosure(function(self, key) 
+            if (key == "WalkSpeed") then
+                if tonumber(originalIndex(self, key)) then 
+                    defaultWalkspeed = tonumber(originalIndex(self, key));
+                end
+                return 16;
+            end
+            return originalIndex(self, key);
+        end);
+    end);
+    
+    if success then 
+        walkspeedConnection = localPlayer.Character.Humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function() 
+            if ((defaultWalkspeed > 16) and not constantWalkspeedToggle:IsToggled()) then 
+                localPlayer.Character.Humanoid.WalkSpeed = tonumber(walkspeedInput:GetText()) or 30;
+            elseif constantWalkspeedToggle:IsToggled() then 
+                localPlayer.Character.Humanoid.WalkSpeed = tonumber(walkspeedInput:GetText()) or 30;
+            end
+        end);
+        walkspeedHookInstalled = true;
+    else 
+        main:Notify("This feature is not supported on your executor");
+    end
+end);
+
+local groupService = game:GetService("GroupService");
+local gameCreatorId = game.CreatorId;
+local modWatchActive = false;
+
+local modWatchBtn = tabs.tools:Button({
+    ["ButtonText"] = "Mod Watch"
+});
+
+local function toggleModWatch() 
+    modWatchBtn:Toggle();
+    if modWatchBtn:IsOn() then 
+        modWatchActive = true;
+        for _, player in players:GetPlayers() do 
+            if (player:GetRankInGroup(gameCreatorId) > 100) then 
+                localPlayer:Kick("A mod joined the game. " .. player.DisplayName .. " (@" .. player.Name .. ")");
+            end
+        end
+    else 
+        modWatchActive = false;
+    end
+end
+
+modWatchBtn:SetCallback(function() 
+    toggleModWatch();
+end);
+
+local chatSpyBtn = tabs.tools:Button({
+    ["ButtonText"] = "Chat Spy",
+    ["Pressed"] = function() 
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/dehoisted/Chat-Spy/main/source/main.lua"))();
+        main:Notify("Credits: dehoisted on GitHub.");
+    end
+});
+
+for locationName, locationCFrame in pairs(cordsTable) do 
+    local teleportBtn = tabs.teleports:Button({
+        ["ButtonText"] = locationName,
+        ["Name"] = locationName,
+        ["Mini"] = true,
+        ["Pressed"] = function() 
+            localPlayer.Character.HumanoidRootPart.CFrame = locationCFrame;
+        end
+    });
+end
+
+local replicatedStorage = game:GetService("ReplicatedStorage");
+local playerStats = replicatedStorage:WaitForChild("PlayerStats", 10);
+local localPlayerStats = replicatedStorage.PlayerStats:WaitForChild(localPlayer.Name);
+local screenMessageLabel = localPlayer.PlayerGui.HUD.ScreenMessageLabel;
+
+local intelligenceBtn = tabs.tools:Button({
+    ["ButtonText"] = "100% Intelligence",
+    ["Color"] = silverColor,
+    ["Pressed"] = function() 
+        if not hasSilverAccess then 
+            main:Notify("You need Silver Access to use this");
+            tabs.misc:Activate();
+            tabs.tools:Deactivate();
+            return;
+        end
+        main:Notify("Set Intelligence to 100% (doesn't apply to lockpicks)");
+        localPlayerStats.Intelligence.Value = 100;
+    end
+});
+
+local infiniteStaminaBtn = tabs.tools:Button({
+    ["ButtonText"] = "Infinite Stamina",
+    ["Color"] = silverColor,
+    ["Pressed"] = function() 
+        if not hasSilverAccess then 
+            main:Notify("You need Silver Access to use this");
+            tabs.misc:Activate();
+            tabs.tools:Deactivate();
+            return;
+        end
+        local localMainScript = localPlayer.Backpack.LocalScripts.LocalMain;
+        if setupvalue then 
+            setupvalue(getsenv(localMainScript).AddStamina, 1, math.huge);
+            main:Notify("You now have infinite stamina");
+        else 
+            main:Notify("This might not work on your executor");
+            setupvalue(getsenv(localMainScript).AddStamina, 1, math.huge);
+        end
+    end
+});
+
+local promoCodeScoutActive = false;
+
+local promoCodeScoutBtn = tabs.tools:Button({
+    ["ButtonText"] = "Promo Code Scout",
+    ["Color"] = silverColor,
+    ["Pressed"] = function() 
+        if not hasSilverAccess then 
+            main:Notify("You need Silver Access to use this");
+            tabs.misc:Activate();
+            tabs.tools:Deactivate();
+            return;
+        end
+        
+        if promoCodeScoutActive then 
+            return;
+        end
+        
+        promoCodeScoutActive = true;
+        local foundCodes = {};
+        local foundNewCodes = false;
+        local messageLabel = game:GetService("Players").LocalPlayer.PlayerGui.HUD.ScreenMessageLabel;
+        
+        for _, statFolder in playerStats:GetDescendants() do 
+            if (statFolder.Name == "PromoCodes") then
+                for _, promoCode in statFolder:GetChildren() do 
+                    if localPlayerStats:FindFirstChild("PromoCodes"):FindFirstChild(promoCode.Name) then 
+                        continue;
+                    end
+                    local args = {[1] = promoCode.Name};
+                    game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("PromoCodeRedeem"):FireServer(unpack(args));
+                    task.wait(0.9);
+                    if (screenMessageLabel.Text == "Promo code successfully redeemed!") then
+                        table.insert(foundCodes, promoCode.Name);
+                        main:Notify("Found new codes: " .. table.concat(foundCodes, ", "));
+                        foundNewCodes = true;
+                    end
+                    screenMessageLabel.Text = "";
+                end
+            end
+        end
+        
+        task.wait(0.1);
+        if (foundNewCodes == false) then
+            main:Notify("No new codes.");
+        else 
+            main:Notify("Found new codes: " .. table.concat(foundCodes, ", "));
+        end
+        promoCodeScoutActive = false;
+    end
+});
+
+local userInputService = game:GetService("UserInputService");
+
+local flyObject = {
+    ["Enabled"] = false,
+    ["Parent"] = nil,
+    ["Dampening"] = 0,
+    ["Power"] = 0,
+    ["MaxForce"] = Vector3.zero,
+    ["Position"] = Vector3.zero,
+    ["CFrame"] = CFrame.new(),
+    ["firstconnection"] = nil
+};
+
+local flyClass = {flyObject};
+
+flyClass.new = function(self, index) 
+    return table.clone(flyClass[index]);
+end;
+
+local humanoid = localPlayer.Character.Humanoid;
+local mouse = localPlayer:GetMouse();
+local isTouchEnabled = userInputService.TouchEnabled;
+
+flyObject.Tick = function(self, enabled) 
+    self.Enabled = enabled;
+    while self.Enabled do 
+        self.Parent = localPlayer.Character.HumanoidRootPart;
+        local currentCFrame = localPlayer.Character.HumanoidRootPart.CFrame;
+        local moveVector = workspace.CurrentCamera.CFrame:VectorToObjectSpace(humanoid.MoveDirection);
+        localPlayer.Character.Humanoid.PlatformStand = true;
+        local speed = 5 * self.Power;
+        
+        if isTouchEnabled then 
+            if (moveVector.Y < 0) then 
+                currentCFrame = currentCFrame + (workspace.CurrentCamera.CoordinateFrame.lookVector * speed * self.Power);
+                speed = (speed * self.Power) + 0;
+            elseif (moveVector.Y > 0) then 
+                currentCFrame = currentCFrame - (workspace.CurrentCamera.CoordinateFrame.lookVector * speed * self.Power);
+                speed = (speed * self.Power) + 0;
+            end
+            if (moveVector.X < -0.1) then 
+                currentCFrame = currentCFrame * CFrame.new(-speed * self.Power, 0, 0);
+                speed = (speed * self.Power) + 0;
+            elseif (moveVector.X > 0.1) then 
+                currentCFrame = currentCFrame * CFrame.new(speed * self.Power, 0, 0);
+                speed = (speed * self.Power) + 0;
+            end
+            if (speed > 10) then 
+                speed = 5 * self.Power;
+            end
+        else 
+            if userInputService:IsKeyDown(Enum.KeyCode.W) then 
+                currentCFrame = currentCFrame + (workspace.CurrentCamera.CoordinateFrame.lookVector * speed * self.Power);
+                speed = (speed * self.Power) + 0;
+            elseif userInputService:IsKeyDown(Enum.KeyCode.S) then 
+                currentCFrame = currentCFrame - (workspace.CurrentCamera.CoordinateFrame.lookVector * speed * self.Power);
+                speed = (speed * self.Power) + 0;
+            end
+            if userInputService:IsKeyDown(Enum.KeyCode.A) then 
+                currentCFrame = currentCFrame * CFrame.new(-speed * self.Power, 0, 0);
+                speed = (speed * self.Power) + 0;
+            elseif userInputService:IsKeyDown(Enum.KeyCode.D) then 
+                currentCFrame = currentCFrame * CFrame.new(speed * self.Power, 0, 0);
+                speed = (speed * self.Power) + 0;
+            end
+            if (speed > 10) then 
+                speed = 5 * self.Power;
+            end
+        end
+        self.Position = currentCFrame.Position;
+        local camX, camY, camZ = workspace.CurrentCamera.CFrame:ToOrientation();
+        self.Parent.CFrame = self.Parent.CFrame:Lerp(CFrame.new(self.Position) * workspace.CurrentCamera.CFrame.Rotation, 0.9);
+        self.Parent.Velocity = Vector3.zero;
+        task.wait();
+    end
+    localPlayer.Character.Humanoid.PlatformStand = false;
+end;
+
+local flyController = flyClass:new(1);
+flyController.Power = 0.1;
+
+local flyKey = "X";
+local flyInputConnection = nil;
+
+local flyBtn = tabs.tools:Button({
+    ["ButtonText"] = "Click X to fly",
+    ["Color"] = goldColor,
+    ["Pressed"] = function() 
+    end
+});
+
+flyBtn:SetCallback(function() 
+    if not hasGoldAccess then 
+        main:Notify("You need Gold Access to use this");
+        tabs.misc:Activate();
+        tabs.tools:Deactivate();
+        return;
+    end
+    
+    flyBtn:Toggle();
+    if flyBtn:IsOn() then 
+        if flyInputConnection then 
+            flyInputConnection:Disconnect();
+            flyInputConnection = userInputService.InputBegan:Connect(function(input) 
+                if (input.KeyCode == Enum.KeyCode[flyKey]) then
+                    task.spawn(function() 
+                        flyController.Parent = localPlayer.Character.HumanoidRootPart;
+                        flyController:Tick(true);
+                    end);
+                end
+            end);
+        end
+        if isTouchEnabled then 
+            task.spawn(function() 
+                flyController.Parent = localPlayer.Character.HumanoidRootPart;
+                flyController:Tick(true);
+            end);
+        end
+    else 
+        flyController:Tick(false);
+    end
+end);
+
+local flyKeyBind = "X";
+
+userInputService.InputBegan:Connect(function(input) 
+    if (input.KeyCode == Enum.KeyCode[flyKeyBind]) then
+        if not flyBtn:IsOn() then 
+            return;
+        end
+        if not flyController.Enabled then 
+            task.spawn(function() 
+                flyController:Tick(true);
+            end);
+        else 
+            flyController:Tick(false);
+        end
+    end
+end);
+
+local flySpeedSlider = tabs.tools:Slider({
+    ["max"] = 50,
+    ["min"] = 0,
+    ["Text"] = "Fly Speed",
+    ["Color"] = goldColor
+});
+
+flySpeedSlider:SetValue(10);
+flySpeedSlider:SetCallback(function() 
+    flyController.Power = flySpeedSlider:GetValue() / 100;
+end);
+
+localPlayer.CharacterAdded:Connect(function(character) 
+    if walkspeedHookInstalled then 
+        if walkspeedConnection then 
+            walkspeedConnection:Disconnect();
+            walkspeedConnection = localPlayer.Character.Humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function() 
+                if ((defaultWalkspeed > 16) and not constantWalkspeedToggle:IsToggled()) then 
+                    localPlayer.Character.Humanoid.WalkSpeed = tonumber(walkspeedInput:GetText()) or 30;
+                elseif constantWalkspeedToggle:IsToggled() then 
+                    localPlayer.Character.Humanoid.WalkSpeed = tonumber(walkspeedInput:GetText()) or 30;
+                end
+            end);
+        end
+    end
+end);
+
+players.PlayerAdded:Connect(function(player) 
+    if modWatchActive then 
+        if (player:GetRankInGroup(gameCreatorId) > 100) then 
+            localPlayer:Kick("A mod joined the game. " .. player.DisplayName .. " (@" .. player.Name .. ")");
+        end
+    end
+end);
+
+local silentAimBtn = tabs.combat:Button({
+    ["ButtonText"] = "Enable Silent Aim (coming soon)",
+    ["Color"] = goldColor,
+    ["Pressed"] = function() 
+        main:Notify("Coming soon fr");
+    end
+});
+
+local aimbotBtn = tabs.combat:Button({
+    ["ButtonText"] = "Load Aimbot Gui",
+    ["Pressed"] = function() 
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/pid4k/scripts/main/universalaimbot.lua"))();
+    end
+});
+
+local autoStompBtn = tabs.combat:Button({
+    ["ButtonText"] = "Autostomp",
+    ["Pressed"] = function() 
+    end
+});
+
+autoStompBtn:SetCallback(function() 
+    autoStompBtn:Toggle();
+    while autoStompBtn:IsOn() do 
+        local args = {[1] = "EPress"};
+        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("CarryStompEvent"):FireServer(unpack(args));
+        task.wait(0.2);
+    end
+end);
+
+tabs.misc:Button({
+    ["ButtonText"] = "Join Discord",
+    ["Name"] = "Disco",
+    ["Pressed"] = function() 
+        main:Notify("dsc.gg/beanzhub (copied to clipboard)");
+        setClip("dsc.gg/beanzhub");
+    end
+});
+
+tabs.misc:Button({
+    ["ButtonText"] = "Load old gui",
+    ["Name"] = "oldgui",
+    ["Pressed"] = function() 
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/pid4k/scripts/main/lifesentence.lua"))();
+    end
+});
+
+silverAccessBtn = tabs.misc:Button({
+    ["ButtonText"] = "Get Silver Access",
+    ["Color"] = silverColor,
+    ["Name"] = "SilverAccess",
+    ["Pressed"] = function() 
+        main:Notify("You can get the key at dsc.gg/beanzhub (copied to clipboard)");
+        setClip("dsc.gg/beanzhub");
+    end
+});
+
+goldAccessBtn = tabs.misc:Button({
+    ["ButtonText"] = "Get Gold Access",
+    ["Color"] = goldColor,
+    ["Name"] = "GoldAccess",
+    ["Pressed"] = function() 
+        main:Notify("Whitelist to get gold access");
+    end
+});
+
+if (checkvariable(fullPath, 1) == "silverkey") then
+    hasSilverAccess = true;
+    silverAccessBtn:Toggle(true);
+end
+
+if verifyKey(checkvariable(fullPath, 9)) then 
+    hasGoldAccess = true;
+    hasSilverAccess = true;
+    silverAccessBtn:Toggle(true);
+    goldAccessBtn:Toggle(true);
+end
